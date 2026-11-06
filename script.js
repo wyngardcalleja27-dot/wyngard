@@ -220,14 +220,13 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Music Player — Spinning Vinyl + YouTube IFrame API
+  // 4. Music Player — Spinning Vinyl + YouTube IFrame API (Autoplay after 3s)
   // ---------------------------------------------------------------------------
   (function initMusicPlayer() {
     var YOUTUBE_VIDEO_ID = '98dhvMKF9Ug'; // WENG-WENG by Uncle Dags feat. Gaspari
 
-    var playBtn    = document.getElementById('musicPlayBtn');
-    var playIcon   = document.getElementById('musicPlayIcon');
-    var vinylDisc  = document.getElementById('vinylDisc');
+    var playBtn     = document.getElementById('musicPlayBtn');
+    var vinylDisc   = document.getElementById('vinylDisc');
     var musicStatus = document.getElementById('musicStatus');
 
     if (!playBtn) return;
@@ -238,42 +237,40 @@
 
     var ytPlayer   = null;
     var isPlaying  = false;
-    var apiLoaded  = false;
-    var apiLoading = false;
+    var isMuted    = false;
+    var autoplayTriggered = false;
 
     function setPlayingState(state) {
       isPlaying = state;
       if (state) {
         playBtn.innerHTML = PAUSE_SVG;
         playBtn.classList.add('is-playing');
-        vinylDisc && vinylDisc.classList.add('is-playing');
-        musicStatus && (musicStatus.textContent = '♪ Now playing — WENG-WENG');
-        musicStatus && musicStatus.classList.add('active');
+        if (vinylDisc) vinylDisc.classList.add('is-playing');
+        if (musicStatus) {
+          musicStatus.textContent = isMuted ? '♪ Playing (unmuted via button)' : '♪ Now playing — WENG-WENG';
+          musicStatus.classList.add('active');
+        }
       } else {
         playBtn.innerHTML = PLAY_SVG;
         playBtn.classList.remove('is-playing');
-        vinylDisc && vinylDisc.classList.remove('is-playing');
-        musicStatus && (musicStatus.textContent = 'Paused');
-        musicStatus && musicStatus.classList.remove('active');
+        if (vinylDisc) vinylDisc.classList.remove('is-playing');
+        if (musicStatus) {
+          musicStatus.textContent = 'Paused';
+          musicStatus.classList.remove('active');
+        }
       }
     }
 
-    function loadYouTubeAPI() {
-      if (apiLoading || apiLoaded) return;
-      apiLoading = true;
-      musicStatus && (musicStatus.textContent = 'Loading…');
+    // Load YouTube IFrame API script immediately on page load
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScript = document.getElementsByTagName('script')[0];
+    firstScript.parentNode.insertBefore(tag, firstScript);
 
-      var tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      var firstScript = document.getElementsByTagName('script')[0];
-      firstScript.parentNode.insertBefore(tag, firstScript);
-    }
+    if (musicStatus) musicStatus.textContent = 'Loading…';
 
-    // Called by YouTube API once it's ready
+    // YouTube calls this when the API is ready
     window.onYouTubeIframeAPIReady = function () {
-      apiLoaded  = true;
-      apiLoading = false;
-
       ytPlayer = new YT.Player('ytPlayer', {
         height: '1',
         width: '1',
@@ -289,46 +286,82 @@
         },
         events: {
           onReady: function (e) {
-            musicStatus && (musicStatus.textContent = 'Click to play');
-            // If user clicked play before API was ready, start now
-            if (isPlaying) {
+            if (musicStatus) musicStatus.textContent = 'Starting in 3s…';
+
+            // Autoplay after 3 seconds using muted trick (browser policy bypass)
+            setTimeout(function () {
+              if (autoplayTriggered) return; // skip if user already clicked
+              autoplayTriggered = true;
+              isMuted = true;
+              e.target.mute();
               e.target.playVideo();
-            }
-          },
-          onStateChange: function (e) {
-            // YT.PlayerState: PLAYING=1, PAUSED=2, ENDED=0, BUFFERING=3
-            if (e.data === 1) {
-              setPlayingState(true);
-            } else if (e.data === 2 || e.data === 0) {
-              setPlayingState(false);
-              if (e.data === 0) {
-                musicStatus && (musicStatus.textContent = 'Click to replay');
+
+              // Show "click to unmute" hint
+              if (musicStatus) {
+                musicStatus.textContent = '🔇 Muted — click ▶ to unmute';
+                musicStatus.classList.add('active');
               }
+              // Spin the disc visually right away
+              if (vinylDisc) vinylDisc.classList.add('is-playing');
+              playBtn.innerHTML = PAUSE_SVG;
+              playBtn.classList.add('is-playing');
+            }, 3000);
+          },
+
+          onStateChange: function (e) {
+            // PLAYING=1, PAUSED=2, ENDED=0, BUFFERING=3
+            if (e.data === 1) {
+              isPlaying = true;
+              if (vinylDisc) vinylDisc.classList.add('is-playing');
+              playBtn.innerHTML = PAUSE_SVG;
+              playBtn.classList.add('is-playing');
+              if (musicStatus) {
+                musicStatus.textContent = isMuted
+                  ? '🔇 Muted — click ▶ to unmute'
+                  : '♪ Now playing — WENG-WENG';
+                musicStatus.classList.add('active');
+              }
+            } else if (e.data === 2) {
+              setPlayingState(false);
+            } else if (e.data === 0) {
+              setPlayingState(false);
+              isMuted = false;
+              if (musicStatus) musicStatus.textContent = 'Click to replay';
             } else if (e.data === 3) {
-              musicStatus && (musicStatus.textContent = 'Buffering…');
+              if (musicStatus) musicStatus.textContent = 'Buffering…';
             }
           },
+
           onError: function () {
-            musicStatus && (musicStatus.textContent = 'Could not load — try again');
+            if (musicStatus) {
+              musicStatus.textContent = 'Could not load — try again';
+              musicStatus.classList.remove('active');
+            }
             setPlayingState(false);
           }
         }
       });
     };
 
+    // Manual play / pause / unmute button
     playBtn.addEventListener('click', function () {
-      if (!apiLoaded) {
-        // First click: load API and mark intent to play
+      autoplayTriggered = true; // cancel pending autoplay if still counting
+      if (!ytPlayer) return;
+
+      if (isMuted) {
+        // First manual click: unmute and keep playing
+        ytPlayer.unMute();
+        isMuted = false;
         isPlaying = true;
         playBtn.innerHTML = PAUSE_SVG;
         playBtn.classList.add('is-playing');
-        vinylDisc && vinylDisc.classList.add('is-playing');
-        musicStatus && (musicStatus.textContent = 'Loading…');
-        loadYouTubeAPI();
+        if (vinylDisc) vinylDisc.classList.add('is-playing');
+        if (musicStatus) {
+          musicStatus.textContent = '♪ Now playing — WENG-WENG';
+          musicStatus.classList.add('active');
+        }
         return;
       }
-
-      if (!ytPlayer) return;
 
       if (isPlaying) {
         ytPlayer.pauseVideo();
