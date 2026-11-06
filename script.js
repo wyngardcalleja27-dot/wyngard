@@ -256,23 +256,18 @@
       }
     }
 
-    // Autoplay after 3 seconds (muted first — browser policy)
-    // Then auto-unmute after a brief moment to trigger audio context
-    var autoTimer = setTimeout(function () {
-      audio.muted = true;
-      audio.play().then(function () {
-        // Successfully autoplayed muted — now unmute smoothly
-        audio.muted = false;
-        setPlayingState(true);
-      }).catch(function () {
-        // Browser blocked even muted autoplay — just wait for user click
-        if (musicStatus) musicStatus.textContent = 'Click ▶ to play';
-      });
-    }, 3000);
+    // Autoplay immediately on page load (muted first — browser policy bypass)
+    audio.muted = true;
+    audio.play().then(function () {
+      audio.muted = false; // unmute instantly once playing is confirmed
+      setPlayingState(true);
+    }).catch(function () {
+      // Browser blocked autoplay — wait for user click
+      if (musicStatus) musicStatus.textContent = 'Click ▶ to play';
+    });
 
     // Manual play / pause button
     playBtn.addEventListener('click', function () {
-      clearTimeout(autoTimer); // cancel pending autoplay if user clicks first
       if (isPlaying) {
         audio.pause();
       } else {
