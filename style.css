@@ -1,0 +1,1007 @@
+/* ==========================================================================
+   MINIMALIST PROFILE & PORTFOLIO STYLESHEET
+   Palette: Grayscale (zinc/charcoal grays & white) + Warm Amber/Orange Lighting
+   Design: Deep calm tones, zero clutter, warm atmospheric glow.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Variables (Curated Grayscale & Warm Luminescence)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Surface Grays (from deep subdued slate to elevated cards) */
+  --bg-primary: #151518;
+  --bg-secondary: #1b1b1f;
+  --bg-tertiary: #232328;
+  --bg-elevated: #292930;
+  --bg-hover: #32323b;
+  --bg-pill: #1f1f24;
+
+  /* Borders & Dividers */
+  --border-subtle: #27272e;
+  --border-medium: #35353f;
+  --border-active: #4a4a58;
+
+  /* Typography Grays & White */
+  --text-white: #ffffff;
+  --text-primary: #ededf0;
+  --text-secondary: #b0b0b8;
+  --text-muted: #787882;
+  --text-dim: #54545d;
+
+  /* Warm Orange / Amber Lighting Accents */
+  --warm-orange-core: #ea580c;
+  --warm-orange-glow: #f97316;
+  --warm-orange-light: #fb923c;
+  --warm-orange-soft: #fdba74;
+  --warm-orange-pale: #ffedd5;
+
+  /* Warm Transparent Hex Alpha Tokens */
+  --warm-alpha-05: #f973160d;
+  --warm-alpha-10: #f973161a;
+  --warm-alpha-18: #f973162e;
+  --warm-alpha-30: #f973164d;
+  --warm-alpha-50: #f9731680;
+
+  /* White Transparent Hex Alpha Tokens */
+  --white-alpha-05: #ffffff0d;
+  --white-alpha-10: #ffffff1a;
+  --white-alpha-15: #ffffff26;
+  --white-alpha-20: #ffffff33;
+
+  /* Typography & Layout Metrics */
+  --font-stack: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --content-max-width: 760px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-warmth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Light Mode Variables (Soft linen gray & whites, charcoal text, warm amber)
+   -------------------------------------------------------------------------- */
+body[data-theme="light"] {
+  /* Surface Grays (Soft linen/stone canvas to crisp elevated white cards) */
+  --bg-primary: #eaeae7;
+  --bg-secondary: #f4f4f1;
+  --bg-tertiary: #fcfcfb;
+  --bg-elevated: #ffffff;
+  --bg-hover: #e0e0dc;
+  --bg-pill: #e3e3de;
+
+  /* Borders & Dividers */
+  --border-subtle: #d6d6d0;
+  --border-medium: #c7c7c0;
+  --border-active: #adada4;
+
+  /* Typography Grays & Whites (No pure dark zero, strictly charcoal & slate) */
+  --text-white: #17171c;
+  --text-primary: #272730;
+  --text-secondary: #565662;
+  --text-muted: #787886;
+  --text-dim: #9696a2;
+
+  /* Transparent White/Gray Shadows for light surfaces */
+  --white-alpha-05: #17171c0a;
+  --white-alpha-10: #17171c14;
+  --white-alpha-15: #17171c1f;
+  --white-alpha-20: #17171c26;
+
+  /* Warm Transparent Hex Alpha Tokens tuned for light background */
+  --warm-alpha-05: #f9731612;
+  --warm-alpha-10: #f9731620;
+  --warm-alpha-18: #f973162e;
+  --warm-alpha-30: #f9731644;
+  --warm-alpha-50: #f9731666;
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Baseline
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Ambient Warm Lighting Effects (Oranges, Low Brightness, Soft Glow)
+   -------------------------------------------------------------------------- */
+.ambient-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  transition: opacity var(--transition-warmth), transform var(--transition-warmth);
+}
+
+/* Warm desk lamp glow originating from top-right corner */
+.ambient-glow-top {
+  top: -160px;
+  right: -100px;
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, var(--warm-alpha-18) 0%, var(--warm-alpha-05) 45%, transparent 70%);
+  filter: blur(50px);
+  opacity: 0.85;
+}
+
+/* Secondary warm soft dusk reflection from lower left */
+.ambient-glow-side {
+  top: 40%;
+  left: -200px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--warm-alpha-10) 0%, var(--warm-alpha-05) 50%, transparent 75%);
+  filter: blur(65px);
+  opacity: 0.6;
+}
+
+/* Solid Warm Orange Mouse Follower (Sharp, zero blur, reactive overlay) */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-glow);
+  border: 2px solid var(--warm-orange-light);
+  pointer-events: none;
+  z-index: 999;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: width var(--transition-fast), height var(--transition-fast), margin var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-smooth);
+}
+
+/* Precision center pip */
+.cursor-glow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), width var(--transition-fast), height var(--transition-fast);
+}
+
+/* When the solid orange follower overlays any element */
+.cursor-glow.cursor-overlay-active {
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  margin-left: -24px;
+  background-color: var(--warm-orange-core);
+  border-color: var(--warm-orange-pale);
+  opacity: 0.95;
+}
+
+.cursor-glow.cursor-overlay-active::after {
+  width: 8px;
+  height: 8px;
+  background-color: var(--text-white);
+}
+
+/* Dynamic Warmth Intensity Presets (Controlled via JS) */
+body[data-warmth="warm"] .ambient-glow-top {
+  opacity: 0.95;
+  filter: blur(45px);
+}
+body[data-warmth="warm"] .cursor-glow {
+  opacity: 1;
+}
+
+body[data-warmth="cozy"] .ambient-glow-top {
+  opacity: 0.65;
+  filter: blur(60px);
+}
+body[data-warmth="cozy"] .cursor-glow {
+  opacity: 0.85;
+}
+
+body[data-warmth="dim"] .ambient-glow-top {
+  opacity: 0.3;
+  filter: blur(75px);
+}
+body[data-warmth="dim"] .ambient-glow-side {
+  opacity: 0.2;
+}
+body[data-warmth="dim"] .cursor-glow {
+  opacity: 0.6;
+}
+
+body[data-warmth="off"] .ambient-glow {
+  opacity: 0;
+}
+body[data-warmth="off"] .cursor-glow {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Layout Container
+   -------------------------------------------------------------------------- */
+.page-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 44px 24px 64px 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   Header / Top Navigation
+   -------------------------------------------------------------------------- */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 72px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-monogram {
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  color: var(--text-white);
+  padding: 4px 8px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-secondary);
+  transition: all var(--transition-fast);
+}
+
+.brand-monogram:hover,
+.brand-monogram.is-overlaid {
+  background-color: var(--warm-orange-glow);
+  color: var(--bg-primary);
+  border-color: var(--warm-orange-core);
+  box-shadow: 0 0 12px var(--warm-alpha-30);
+  transform: translateY(-1px);
+}
+
+.brand-divider {
+  color: var(--text-dim);
+  font-weight: 300;
+}
+
+.brand-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-glow);
+  box-shadow: 0 0 8px var(--warm-orange-glow);
+  animation: warmPulse 3s ease-in-out infinite;
+}
+
+@keyframes warmPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 8px var(--warm-orange-glow);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.9);
+    box-shadow: 0 0 4px var(--warm-orange-glow);
+  }
+}
+
+.nav-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Minimalist Header Toggle Buttons (Theme & Warmth) */
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.toggle-btn:hover,
+.toggle-btn.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  background-color: var(--bg-tertiary);
+  color: var(--warm-orange-light);
+  box-shadow: 0 0 12px var(--warm-alpha-30);
+  transform: translateY(-1px);
+}
+
+.toggle-btn:active {
+  transform: scale(0.92);
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* Active warmth toggle */
+.toggle-btn.is-active .toggle-icon {
+  color: var(--warm-orange-glow);
+  filter: drop-shadow(0 0 4px var(--warm-alpha-30));
+}
+
+.toggle-btn#lightBtn:not(.is-active) {
+  opacity: 0.55;
+}
+
+.toggle-btn#lightBtn:not(.is-active):hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section
+   -------------------------------------------------------------------------- */
+.hero-section {
+  margin-bottom: 76px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 20px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+}
+
+.hero-badge:hover,
+.hero-badge.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  background-color: var(--bg-tertiary);
+  color: var(--warm-orange-light);
+  box-shadow: 0 0 14px var(--warm-alpha-18);
+  transform: translateY(-1px);
+}
+
+.badge-flare {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-light);
+  box-shadow: 0 0 6px var(--warm-orange-light);
+  transition: transform var(--transition-fast);
+}
+
+.hero-badge:hover .badge-flare,
+.hero-badge.is-overlaid .badge-flare {
+  transform: scale(1.4);
+  background-color: var(--warm-orange-glow);
+}
+
+.hero-title {
+  font-size: 2.85rem;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: var(--text-white);
+  margin-bottom: 20px;
+  transition: color var(--transition-smooth);
+}
+
+.hero-title:hover,
+.hero-title.is-overlaid {
+  color: var(--warm-orange-pale);
+}
+
+.hero-tagline {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 620px;
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons (Minimalist, Gray & White, Warm Hover Flare)
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--bg-secondary);
+  color: var(--text-white);
+  border: 1px solid var(--border-medium);
+}
+
+.btn-primary:hover,
+.btn-primary.is-overlaid {
+  background-color: var(--warm-orange-glow);
+  color: var(--bg-primary);
+  border-color: var(--warm-orange-core);
+  box-shadow: 0 0 16px var(--warm-alpha-30);
+  transform: translateY(-2px);
+}
+
+.btn-primary:hover svg,
+.btn-primary.is-overlaid svg {
+  stroke: var(--bg-primary);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover,
+.btn-secondary.is-overlaid {
+  background-color: var(--bg-secondary);
+  color: var(--warm-orange-light);
+  border-color: var(--warm-orange-glow);
+  box-shadow: 0 0 12px var(--warm-alpha-18);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Shared Section Header Elements
+   -------------------------------------------------------------------------- */
+.section {
+  margin-bottom: 76px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.label-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-glow);
+  opacity: 0.8;
+}
+
+.section-meta {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   About Section
+   -------------------------------------------------------------------------- */
+.about-section .section-label {
+  margin-bottom: 24px;
+}
+
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.about-text p strong {
+  color: var(--text-white);
+  font-weight: 500;
+}
+
+.focus-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.tag:hover,
+.tag.is-overlaid {
+  color: var(--bg-primary);
+  background-color: var(--warm-orange-glow);
+  border-color: var(--warm-orange-core);
+  font-weight: 600;
+  box-shadow: 0 0 14px var(--warm-alpha-30);
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   Experience / Timeline Section
+   -------------------------------------------------------------------------- */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.experience-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  padding: 18px 14px;
+  border-radius: var(--radius-md);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.experience-row:hover,
+.experience-row.is-overlaid {
+  background-color: var(--bg-secondary);
+  border-bottom-color: var(--warm-alpha-30);
+  box-shadow: 0 4px 18px var(--warm-alpha-10);
+  transform: translateX(4px);
+}
+
+.experience-row:last-child {
+  border-bottom: none;
+}
+
+.exp-period {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+  transition: color var(--transition-fast);
+}
+
+.experience-row:hover .exp-period,
+.experience-row.is-overlaid .exp-period {
+  color: var(--warm-orange-glow);
+  font-weight: 600;
+}
+
+.exp-role {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 2px;
+  transition: color var(--transition-fast);
+}
+
+.experience-row:hover .exp-role,
+.experience-row.is-overlaid .exp-role {
+  color: var(--warm-orange-light);
+}
+
+.exp-org {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.exp-summary {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Principles Section (Triptych)
+   -------------------------------------------------------------------------- */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.principle-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: all var(--transition-fast);
+}
+
+.principle-card:hover,
+.principle-card.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 8px 24px var(--warm-alpha-18);
+  transform: translateY(-3px);
+}
+
+.principle-index {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--warm-orange-light);
+  margin-bottom: 10px;
+  transition: all var(--transition-fast);
+}
+
+.principle-card:hover .principle-index,
+.principle-card.is-overlaid .principle-index {
+  color: var(--warm-orange-glow);
+  transform: scale(1.15);
+}
+
+.principle-title {
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 8px;
+  transition: color var(--transition-fast);
+}
+
+.principle-card:hover .principle-title,
+.principle-card.is-overlaid .principle-title {
+  color: var(--warm-orange-light);
+}
+
+.principle-text {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.principle-card:hover .principle-text,
+.principle-card.is-overlaid .principle-text {
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Contact Section
+   -------------------------------------------------------------------------- */
+.contact-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.contact-box:hover,
+.contact-box.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  box-shadow: 0 10px 32px var(--warm-alpha-18);
+}
+
+/* Warm internal subtle corner lamp illumination inside the contact box */
+.contact-box::after {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--warm-alpha-18) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(20px);
+}
+
+.warm-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-glow);
+  box-shadow: 0 0 10px var(--warm-orange-glow);
+  margin-bottom: 16px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.contact-box:hover .warm-indicator,
+.contact-box.is-overlaid .warm-indicator {
+  transform: scale(1.3);
+  box-shadow: 0 0 14px var(--warm-orange-light);
+}
+
+.contact-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-white);
+  margin-bottom: 12px;
+  transition: color var(--transition-fast);
+}
+
+.contact-box:hover .contact-title,
+.contact-box.is-overlaid .contact-title {
+  color: var(--warm-orange-pale);
+}
+
+.contact-subtitle {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
+}
+
+.social-link {
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.social-link:hover,
+.social-link.is-overlaid {
+  color: var(--warm-orange-light);
+  transform: translateY(-1px);
+}
+
+.social-sep {
+  color: var(--text-dim);
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.footer {
+  margin-top: auto;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.footer-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-divider {
+  color: var(--border-medium);
+}
+
+.warm-dot-small {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--warm-orange-core);
+  box-shadow: 0 0 6px var(--warm-orange-glow);
+  display: inline-block;
+}
+
+.footer-right {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Toast Notification (Clean minimalist confirmation)
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--bg-elevated);
+  color: var(--text-white);
+  border: 1px solid var(--border-active);
+  box-shadow: 0 8px 24px var(--white-alpha-05), 0 0 16px var(--warm-alpha-10);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--transition-fast), opacity var(--transition-fast), visibility var(--transition-fast);
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-warm-icon {
+  color: var(--warm-orange-light);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .page-wrapper {
+    padding: 24px 18px 48px 18px;
+  }
+
+  .top-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .nav-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-title {
+    font-size: 2.15rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.02rem;
+  }
+
+  .experience-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .exp-period {
+    color: var(--warm-orange-light);
+    font-weight: 500;
+  }
+
+  .contact-box {
+    padding: 24px 20px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ambient-glow-top {
+    width: 380px;
+    height: 380px;
+    right: -120px;
+    top: -120px;
+  }
+}

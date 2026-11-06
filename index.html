@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — Minimalist Portfolio</title>
+  <meta name="description"
+    content="A minimalist profile website featuring calm typography, muted grays, soft whites, and cozy warm orange lighting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Ambient Warm Lighting Background Elements -->
+  <div class="ambient-glow ambient-glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-side" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- Main Container -->
+  <div class="page-wrapper">
+
+    <!-- Top Navigation / Controls Bar -->
+    <header class="top-nav">
+      <div class="brand">
+        <span class="brand-monogram">WC</span>
+        <span class="brand-divider">/</span>
+        <span class="brand-status">
+          <span class="status-dot"></span>
+          <span>Grade 11 Student</span>
+        </span>
+      </div>
+
+      <div class="nav-controls">
+        <!-- Theme Toggle (Dark / Light) -->
+        <button class="toggle-btn" id="themeBtn" type="button" aria-label="Toggle dark or light theme"
+          title="Toggle theme">
+          <span class="toggle-icon" id="themeIcon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Warmth Toggle (On / Off) -->
+        <button class="toggle-btn is-active" id="lightBtn" type="button" aria-label="Toggle warm ambient light"
+          title="Toggle warm ambient light">
+          <span class="toggle-icon light-toggle-icon" id="lightIcon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Hero Section -->
+      <section class="section hero-section">
+        <div class="hero-badge">
+          <span class="badge-flare"></span>
+          <span>Rare dude &bull; Learner &amp; Engineer</span>
+        </div>
+
+        <h1 class="hero-title">
+          Wyngard Calleja
+        </h1>
+
+        <p class="hero-tagline">
+          Learning about basics of engeneering and web development at 16 years old
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="copyEmailBtn" data-email="wyngardcalleja27@gmail.com">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>wyngardcalleja27@gmail.com</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- About / Philosophy Section -->
+      <section class="section about-section">
+        <div class="section-label">
+          <span class="label-dot"></span>
+          <span>Perspective</span>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              I really dont have a clue as of now but i am looking forward to improve my skills and learn more abt
+              developing
+            </p>
+            <p>
+              this marks my first step in my journey and di am willing to learn more abt developing webs, softwares,
+              etc.
+            </p>
+          </div>
+
+          <div class="focus-tags">
+            <span class="tag">JHS Graduate</span>
+            <span class="tag">🎓</span>
+            <span class="tag">Casual Gamer</span>
+            <span class="tag">🎮</span>
+            <span class="tag">Guitarist</span>
+            <span class="tag">🎸</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience / Timeline Section -->
+      <section class="section experience-section">
+        <div class="section-header">
+          <div class="section-label">
+            <span class="label-dot"></span>
+            <span>Path &amp; Experience</span>
+          </div>
+        </div>
+
+        <div class="experience-list">
+          <div class="experience-row">
+            <div class="exp-period">2022 &mdash; 2023</div>
+            <div class="exp-details">
+              <div class="exp-role">Early junior high school era!</div>
+              <div class="exp-org">confused high school kid</div>
+              <p class="exp-summary">too shy to learn anything and always regret not doing it afterwardsd </p>
+            </div>
+          </div>
+
+          <div class="experience-row">
+            <div class="exp-period">2024 &mdash; 2025</div>
+            <div class="exp-details">
+              <div class="exp-role">late junior high school era!</div>
+              <div class="exp-org">Learning stage</div>
+              <p class="exp-summary">where i started having interest in coding and making things by my self.</p>
+            </div>
+          </div>
+
+          <div class="experience-row">
+            <div class="exp-period">present</div>
+            <div class="exp-details">
+              <div class="exp-role">Senior High School student!</div>
+              <div class="exp-org">Exploring different aspects of engineering and web development</div>
+              <p class="exp-summary">learning about the basics of web development and engineering.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Principles Section -->
+      <section class="section principles-section">
+        <div class="section-header">
+          <div class="section-label">
+            <span class="label-dot"></span>
+            <span>Personal Principles</span>
+          </div>
+        </div>
+
+        <div class="principles-grid">
+          <div class="principle-card">
+            <span class="principle-index">I</span>
+            <h4 class="principle-title">Curiosity Over Fear</h4>
+            <p class="principle-text">I used to be too shy to try new things and always regretted holding back. Now I
+              choose to jump in, ask questions, and learn by doing.</p>
+          </div>
+
+          <div class="principle-card">
+            <span class="principle-index">II</span>
+            <h4 class="principle-title">Build It Myself</h4>
+            <p class="principle-text">Whether it's practicing guitar chords, playing games, or writing my first lines of
+              code, nothing beats the feeling of figuring things out and creating from scratch.</p>
+          </div>
+
+          <div class="principle-card">
+            <span class="principle-index">III</span>
+            <h4 class="principle-title">One Step at a Time</h4>
+            <p class="principle-text">At 16, I don't have all the answers yet, and that's okay. Every small lesson,
+              mistake, and project is another step forward in my journey.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact / Connect Section -->
+      <section class="section contact-section">
+        <div class="contact-box">
+          <div class="contact-header">
+            <div class="warm-indicator"></div>
+            <h2 class="contact-title">Let's connect &amp; build.</h2>
+            <p class="contact-subtitle">
+              Always open to talk about tech, music, gaming, or collaborate on cool projects as I continue learning.
+            </p>
+          </div>
+
+          <div class="contact-actions">
+            <button class="btn btn-primary" id="copyEmailBtnSecondary" data-email="wyngardcalleja27@gmail.com">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>wyngardcalleja27@gmail.com</span>
+            </button>
+
+            <a href="mailto:wyngardcalleja27@gmail.com" class="btn btn-secondary">
+              <span>Send Mail</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="https://www.facebook.com/wyncalleja27" target="_blank" rel="noopener noreferrer"
+              class="social-link">Facebook</a>
+            <span class="social-sep">&bull;</span>
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-link">X / Twitter</a>
+            <span class="social-sep">&bull;</span>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
+            <span class="social-sep">&bull;</span>
+            <a href="https://readcv.com" target="_blank" rel="noopener noreferrer" class="social-link">ReadCV</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-left">
+        <span>Designed with minimal restraint</span>
+        <span class="footer-divider">&bull;</span>
+        <span class="warm-dot-small"></span>
+        <span>Warm Ambient 2400K</span>
+      </div>
+
+      <div class="footer-right">
+        <span id="localTimeDisplay">00:00:00</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Minimal Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-warm-icon">&bull;</span>
+    <span class="toast-text" id="toastText">Email copied to clipboard</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
