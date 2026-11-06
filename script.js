@@ -161,7 +161,64 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 3. Email Copy Interaction & Minimal Toast
+  // 3. Interactive 3D Card Observation Engine (Tilt, Parallax & Warm Glare)
+  // ---------------------------------------------------------------------------
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const card3dElements = document.querySelectorAll('.card-3d');
+
+    card3dElements.forEach(function (card) {
+      // Create and inject the warm reflection glare layer if not present
+      if (!card.querySelector('.card-3d-glare')) {
+        const glare = document.createElement('div');
+        glare.className = 'card-3d-glare';
+        glare.setAttribute('aria-hidden', 'true');
+        card.appendChild(glare);
+      }
+
+      let isHovered = false;
+
+      card.addEventListener('mouseenter', function () {
+        isHovered = true;
+      });
+
+      card.addEventListener('mousemove', function (e) {
+        if (!isHovered) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Angle bounds tuned per container type for tactile observation feel
+        const isTag = card.classList.contains('tag');
+        const isContact = card.classList.contains('contact-box');
+        const maxTilt = isTag ? 10 : (isContact ? 6 : 11);
+        const liftZ = isTag ? 14 : (isContact ? 22 : 26);
+
+        const rotateX = (((y - centerY) / centerY) * -maxTilt).toFixed(2);
+        const rotateY = (((x - centerX) / centerX) * maxTilt).toFixed(2);
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${liftZ}px) scale3d(1.03, 1.03, 1.03)`;
+
+        // Update warm glare illumination coordinates
+        const glareX = ((x / rect.width) * 100).toFixed(1);
+        const glareY = ((y / rect.height) * 100).toFixed(1);
+        card.style.setProperty('--mouse-x', `${glareX}%`);
+        card.style.setProperty('--mouse-y', `${glareY}%`);
+      });
+
+      card.addEventListener('mouseleave', function () {
+        isHovered = false;
+        // Smoothly settle back down
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)';
+        card.style.removeProperty('--mouse-x');
+        card.style.removeProperty('--mouse-y');
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // 4. Email Copy Interaction & Minimal Toast
   // ---------------------------------------------------------------------------
   const copyBtns = [
     document.getElementById('copyEmailBtn'),
@@ -223,13 +280,13 @@
   copyBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      const email = btn.getAttribute('data-email') || 'alex.vance@example.com';
+      const email = btn.getAttribute('data-email') || 'wyngardcalleja27@gmail.com';
       copyToClipboard(email);
     });
   });
 
   // ---------------------------------------------------------------------------
-  // 4. Live Local Clock in Footer
+  // 5. Live Local Clock in Footer
   // ---------------------------------------------------------------------------
   const localTimeDisplay = document.getElementById('localTimeDisplay');
 

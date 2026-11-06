@@ -25,14 +25,19 @@ A quiet, distraction-free profile and portfolio website crafted with deliberate 
    - Crisp, solid warm orange cursor disc (zero blur) with precision central focal pip that follows pointer movements smoothly.
    - When overlaying interactive elements (tags, cards, buttons, timeline entries, links, headings), the cursor smoothly expands into a tactile lens while the underlying elements shift into warm orange and high-contrast charcoal/white accents to match the website.
 
-4. **Curated Sections**:
-   - **Hero**: Clean moniker, availability status indicator with glowing ember pulse, and quick email action.
-   - **About / Perspective**: Philosophy of craft and skill tag cloud.
-   - **Path & Experience**: Clean timeline layout.
-   - **Design Principles**: Triptych layout outlining core values.
-   - **Contact & Footer**: Direct email copy button with toast feedback, platform links, and real-time local clock.
+4. **3D Card Observation Engine**:
+   - Interactive 3D perspective tilt that dynamically tracks mouse movement across the **Focus Tags**, **Personal Principle Cards**, and the **Contact Box**.
+   - Multilayered parallax depth: titles, numbers, and badges float along the Z-axis above the card canvas.
+   - Moving warm light glare sheen that realistically reflects across card surfaces during inspection.
 
-5. **Zero Dependencies**:
+5. **Curated Sections**:
+   - **Hero**: Monogram (`WC`), status indicator with glowing ember pulse, and quick email action.
+   - **About / Perspective**: Philosophy of craft and 3D skill badge cards.
+   - **Path & Experience**: Clean timeline layout.
+   - **Personal Principles**: Interactive 3D triptych outlining core mindset.
+   - **Contact & Footer**: 3D contact card with email copy button, toast confirmation, and real-time local clock.
+
+6. **Zero Dependencies**:
    - Built with pure HTML5, CSS3, and modern vanilla JavaScript.
    - No build tools, package managers, or frameworks required.
    - Instant load times and 100% responsive across mobile, tablet, and desktop.
