@@ -144,7 +144,9 @@
       '.contact-box',
       '.brand-monogram',
       '.toggle-btn',
-      '.hero-title'
+      '.hero-title',
+      '.music-card',
+      '.music-play-btn'
     ].join(', ');
 
     const targets = document.querySelectorAll(overlayTargetSelectors);
@@ -218,7 +220,126 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Email Copy Interaction & Minimal Toast
+  // 4. Music Player — Spinning Vinyl + YouTube IFrame API
+  // ---------------------------------------------------------------------------
+  (function initMusicPlayer() {
+    var YOUTUBE_VIDEO_ID = '98dhvMKF9Ug'; // WENG-WENG by Uncle Dags feat. Gaspari
+
+    var playBtn    = document.getElementById('musicPlayBtn');
+    var playIcon   = document.getElementById('musicPlayIcon');
+    var vinylDisc  = document.getElementById('vinylDisc');
+    var musicStatus = document.getElementById('musicStatus');
+
+    if (!playBtn) return;
+
+    // SVG icons
+    var PLAY_SVG  = '<svg id="musicPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+    var PAUSE_SVG = '<svg id="musicPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+
+    var ytPlayer   = null;
+    var isPlaying  = false;
+    var apiLoaded  = false;
+    var apiLoading = false;
+
+    function setPlayingState(state) {
+      isPlaying = state;
+      if (state) {
+        playBtn.innerHTML = PAUSE_SVG;
+        playBtn.classList.add('is-playing');
+        vinylDisc && vinylDisc.classList.add('is-playing');
+        musicStatus && (musicStatus.textContent = '♪ Now playing — WENG-WENG');
+        musicStatus && musicStatus.classList.add('active');
+      } else {
+        playBtn.innerHTML = PLAY_SVG;
+        playBtn.classList.remove('is-playing');
+        vinylDisc && vinylDisc.classList.remove('is-playing');
+        musicStatus && (musicStatus.textContent = 'Paused');
+        musicStatus && musicStatus.classList.remove('active');
+      }
+    }
+
+    function loadYouTubeAPI() {
+      if (apiLoading || apiLoaded) return;
+      apiLoading = true;
+      musicStatus && (musicStatus.textContent = 'Loading…');
+
+      var tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      var firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode.insertBefore(tag, firstScript);
+    }
+
+    // Called by YouTube API once it's ready
+    window.onYouTubeIframeAPIReady = function () {
+      apiLoaded  = true;
+      apiLoading = false;
+
+      ytPlayer = new YT.Player('ytPlayer', {
+        height: '1',
+        width: '1',
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          rel: 0
+        },
+        events: {
+          onReady: function (e) {
+            musicStatus && (musicStatus.textContent = 'Click to play');
+            // If user clicked play before API was ready, start now
+            if (isPlaying) {
+              e.target.playVideo();
+            }
+          },
+          onStateChange: function (e) {
+            // YT.PlayerState: PLAYING=1, PAUSED=2, ENDED=0, BUFFERING=3
+            if (e.data === 1) {
+              setPlayingState(true);
+            } else if (e.data === 2 || e.data === 0) {
+              setPlayingState(false);
+              if (e.data === 0) {
+                musicStatus && (musicStatus.textContent = 'Click to replay');
+              }
+            } else if (e.data === 3) {
+              musicStatus && (musicStatus.textContent = 'Buffering…');
+            }
+          },
+          onError: function () {
+            musicStatus && (musicStatus.textContent = 'Could not load — try again');
+            setPlayingState(false);
+          }
+        }
+      });
+    };
+
+    playBtn.addEventListener('click', function () {
+      if (!apiLoaded) {
+        // First click: load API and mark intent to play
+        isPlaying = true;
+        playBtn.innerHTML = PAUSE_SVG;
+        playBtn.classList.add('is-playing');
+        vinylDisc && vinylDisc.classList.add('is-playing');
+        musicStatus && (musicStatus.textContent = 'Loading…');
+        loadYouTubeAPI();
+        return;
+      }
+
+      if (!ytPlayer) return;
+
+      if (isPlaying) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+    });
+  }());
+
+  // ---------------------------------------------------------------------------
+  // 5. Email Copy Interaction & Minimal Toast
   // ---------------------------------------------------------------------------
   const copyBtns = [
     document.getElementById('copyEmailBtn'),

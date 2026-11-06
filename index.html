@@ -140,7 +140,7 @@
             <div class="exp-details">
               <div class="exp-role">Early junior high school era!</div>
               <div class="exp-org">confused high school kid</div>
-              <p class="exp-summary">too shy to learn anything and always regret not doing it afterwardsd </p>
+              <p class="exp-summary">too shy to learn anything and always regret not doing it afterward </p>
             </div>
           </div>
 
@@ -201,6 +201,48 @@
 
 
 
+
+      <!-- Now Playing Section -->
+      <section class="section music-section">
+        <div class="section-label">
+          <span class="label-dot"></span>
+          <span>Now Playing</span>
+        </div>
+
+        <div class="music-card card-3d">
+          <!-- Vinyl Disc -->
+          <div class="vinyl-wrap" id="vinylWrap">
+            <div class="vinyl-disc" id="vinylDisc">
+              <div class="vinyl-grooves"></div>
+              <div class="vinyl-label-ring">
+                <div class="vinyl-center-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track Info & Controls -->
+          <div class="music-info">
+            <div class="music-meta">
+              <span class="music-track-title">WENG-WENG</span>
+              <span class="music-track-artist">Uncle Dags feat. Gaspari</span>
+            </div>
+
+            <div class="music-controls">
+              <button class="music-play-btn" id="musicPlayBtn" aria-label="Play or Pause">
+                <!-- Play icon (default) -->
+                <svg id="musicPlayIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="music-status" id="musicStatus">Click to load &amp; play</div>
+          </div>
+
+          <!-- Hidden YouTube iframe container -->
+          <div id="ytPlayer" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" aria-hidden="true"></div>
+        </div>
+      </section>
 
       <!-- Contact / Connect Section -->
       <section class="section contact-section">
