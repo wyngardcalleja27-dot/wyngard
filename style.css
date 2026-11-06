@@ -103,7 +103,9 @@ body[data-theme="light"] {
 /* --------------------------------------------------------------------------
    Reset & Baseline
    -------------------------------------------------------------------------- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -232,6 +234,7 @@ body[data-warmth="warm"] .ambient-glow-top {
   opacity: 0.95;
   filter: blur(45px);
 }
+
 body[data-warmth="warm"] .cursor-glow {
   opacity: 1;
 }
@@ -240,6 +243,7 @@ body[data-warmth="cozy"] .ambient-glow-top {
   opacity: 0.65;
   filter: blur(60px);
 }
+
 body[data-warmth="cozy"] .cursor-glow {
   opacity: 0.85;
 }
@@ -248,9 +252,11 @@ body[data-warmth="dim"] .ambient-glow-top {
   opacity: 0.3;
   filter: blur(75px);
 }
+
 body[data-warmth="dim"] .ambient-glow-side {
   opacity: 0.2;
 }
+
 body[data-warmth="dim"] .cursor-glow {
   opacity: 0.6;
 }
@@ -258,6 +264,7 @@ body[data-warmth="dim"] .cursor-glow {
 body[data-warmth="off"] .ambient-glow {
   opacity: 0;
 }
+
 body[data-warmth="off"] .cursor-glow {
   opacity: 0;
 }
@@ -339,11 +346,14 @@ body[data-warmth="off"] .cursor-glow {
 }
 
 @keyframes warmPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
     box-shadow: 0 0 8px var(--warm-orange-glow);
   }
+
   50% {
     opacity: 0.55;
     transform: scale(0.9);
@@ -582,6 +592,10 @@ body[data-warmth="off"] .cursor-glow {
 /* --------------------------------------------------------------------------
    About Section
    -------------------------------------------------------------------------- */
+.about-section {
+  perspective: 1100px;
+}
+
 .about-section .section-label {
   margin-bottom: 24px;
 }
@@ -599,6 +613,29 @@ body[data-warmth="off"] .cursor-glow {
   font-size: 1.02rem;
   line-height: 1.7;
   color: var(--text-secondary);
+}
+
+.about-text.card-3d {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.about-text.card-3d:hover,
+.about-text.card-3d.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 22px 45px var(--warm-alpha-18), 0 8px 18px var(--warm-alpha-10), 0 0 0 1px var(--warm-alpha-30);
+}
+
+.about-text.card-3d p {
+  transform: translateZ(16px);
+  transition: transform var(--transition-fast);
 }
 
 .about-text p strong {
@@ -646,11 +683,17 @@ body[data-warmth="off"] .cursor-glow {
 }
 
 /* --------------------------------------------------------------------------
-   Experience / Timeline Section
+   Experience / Timeline Section (3D Observation Milestone Cards)
    -------------------------------------------------------------------------- */
+.experience-section {
+  perspective: 1100px;
+}
+
 .experience-list {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  perspective: 1100px;
 }
 
 .experience-row {
@@ -664,55 +707,70 @@ body[data-warmth="off"] .cursor-glow {
   cursor: default;
 }
 
-.experience-row:hover,
-.experience-row.is-overlaid {
+.experience-row.card-3d {
+  padding: 22px 20px;
   background-color: var(--bg-secondary);
-  border-bottom-color: var(--warm-alpha-30);
-  box-shadow: 0 4px 18px var(--warm-alpha-10);
-  transform: translateX(4px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
 }
 
-.experience-row:last-child {
-  border-bottom: none;
+.experience-row.card-3d:hover,
+.experience-row.card-3d.is-overlaid {
+  border-color: var(--warm-orange-glow);
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 22px 45px var(--warm-alpha-18), 0 8px 18px var(--warm-alpha-10), 0 0 0 1px var(--warm-alpha-30);
 }
 
-.exp-period {
+.experience-row.card-3d .exp-period {
   font-size: 0.82rem;
   color: var(--text-dim);
   font-variant-numeric: tabular-nums;
   padding-top: 2px;
-  transition: color var(--transition-fast);
+  transform: translateZ(24px);
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
-.experience-row:hover .exp-period,
-.experience-row.is-overlaid .exp-period {
+.experience-row.card-3d:hover .exp-period,
+.experience-row.card-3d.is-overlaid .exp-period {
   color: var(--warm-orange-glow);
   font-weight: 600;
+  transform: translateZ(28px);
 }
 
-.exp-role {
-  font-size: 0.98rem;
+.experience-row.card-3d .exp-role {
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-white);
-  margin-bottom: 2px;
-  transition: color var(--transition-fast);
+  margin-bottom: 3px;
+  transform: translateZ(20px);
+  transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
-.experience-row:hover .exp-role,
-.experience-row.is-overlaid .exp-role {
+.experience-row.card-3d:hover .exp-role,
+.experience-row.card-3d.is-overlaid .exp-role {
   color: var(--warm-orange-light);
+  transform: translateZ(24px);
 }
 
-.exp-org {
+.experience-row.card-3d .exp-org {
   font-size: 0.84rem;
   color: var(--text-muted);
   margin-bottom: 8px;
+  transform: translateZ(16px);
+  transition: transform var(--transition-fast);
 }
 
-.exp-summary {
+.experience-row.card-3d .exp-summary {
   font-size: 0.88rem;
   line-height: 1.55;
   color: var(--text-secondary);
+  transform: translateZ(12px);
+  transition: transform var(--transition-fast);
 }
 
 /* --------------------------------------------------------------------------
@@ -752,10 +810,8 @@ body[data-warmth="off"] .cursor-glow {
   z-index: 5;
 }
 
-.principle-card:hover .card-3d-glare,
-.principle-card.is-overlaid .card-3d-glare,
-.contact-box:hover .card-3d-glare,
-.contact-box.is-overlaid .card-3d-glare {
+.card-3d:hover .card-3d-glare,
+.card-3d.is-overlaid .card-3d-glare {
   opacity: 1;
 }
 
